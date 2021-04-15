@@ -1,7 +1,5 @@
 package stgrupp8.gruppProjekt.controller;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +26,6 @@ public class ExceptionHandlerControllerAdvice {
     @ExceptionHandler(NoContentException.class)
     public ResponseEntity<Object> handleNoContentException(NoContentException ex) {
         return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.NO_CONTENT);
-    }
-    
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex) {
-        return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
 }
