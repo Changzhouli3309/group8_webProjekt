@@ -57,12 +57,12 @@ public class StudentController {
 	}
 
 	@PostMapping("/student")
-	public ResponseEntity<Student> createStudent(@Validated @RequestBody StudentRequestModel newPro) {
-		if (newPro == null || newPro.getAge() < 0) {
+	public ResponseEntity<Student> createStudent(@Validated @RequestBody StudentRequestModel studMod) {
+		if (studMod.getName().equals("") || studMod.getLast_name().equals("") || studMod.getAge() < 0) {
 			throw new BadRequestException("400 Bad Request");
 		} else {
-			Student saved = stu_ser
-					.createStudent(new Student(newPro.getName(), newPro.getLast_name(), newPro.getAge(),newPro.isPresent()));
+			Student saved = stu_ser.createStudent(
+					new Student(studMod.getName(), studMod.getLast_name(), studMod.getAge(), studMod.isPresent()));
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 		}
@@ -70,13 +70,15 @@ public class StudentController {
 	}
 
 	@PutMapping("/student/{id}")
-	public ResponseEntity<Student> updateStudent(@PathVariable String id, @RequestBody StudentRequestModel updated) {
-		if (id == null || updated == null || updated.getAge() < 0) {
+	public ResponseEntity<Student> updateStudent(@PathVariable String id, @RequestBody StudentRequestModel studMod) {
+		if (id == null || studMod.getName().equals("") || studMod.getLast_name().equals("") || studMod.getAge() < 0
+				|| studMod.getAge() < 0) {
 			throw new BadRequestException("400 Bad Request");
 		}
-		
-		Student s = stu_ser.updateStudent(id, updated.getName(), updated.getLast_name(), updated.getAge(),updated.isPresent());
-		if(s.equals(null)) {
+
+		Student s = stu_ser.updateStudent(id, studMod.getName(), studMod.getLast_name(), studMod.getAge(),
+				studMod.isPresent());
+		if (s.equals(null)) {
 			throw new BadRequestException("400 Bad Request");
 		}
 		return ResponseEntity.ok(s);
@@ -84,9 +86,9 @@ public class StudentController {
 
 	@DeleteMapping("/student/{id}")
 	public ResponseEntity<Student> deleteStudent(@PathVariable String id) {
-		if(stu_ser.deleteSudent(id)) {
+		if (stu_ser.deleteSudent(id)) {
 			return ResponseEntity.ok().build();
-		}else {
+		} else {
 			throw new BadRequestException("400 Bad Request");
 		}
 	}
